@@ -3,13 +3,14 @@ package com.mustache.main;
 import com.mustache.gui.MainMenu;
 
 import javax.swing.*;
-import java.awt.*;
 import java.io.IOException;
 
 public class Controller {
 
     private final JFrame window = new JFrame();
     private JPanel contentPane;
+
+    private String language = "german";
 
     public Controller() throws IOException {
         new MainMenu(this);
@@ -31,6 +32,13 @@ public class Controller {
     }
 
 
+    public String getLanguage() {
+        return language;
+    }
+
+    public void setLanguage(String language) {
+        this.language = language;
+    }
 }
 
 

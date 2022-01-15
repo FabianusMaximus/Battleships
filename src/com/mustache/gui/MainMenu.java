@@ -9,32 +9,34 @@ import java.io.IOException;
 
 public class MainMenu {
 
-    private final Translate translate = new Translate("english", "german");
+    private final Translate translate;
 
     private final JPanel contentPane = new JPanel(null);
     private final JPanel panelButtons = new JPanel(new GridLayout(4,1));
 
-    private final JButton singleplayer = new JButton(translate.translated("Singleplayer"));
-    private final JButton multiplayer = new JButton(translate.translated("Multiplayer"));
-    private final JButton options = new JButton(translate.translated("Options"));
-    private final JButton exit = new JButton(translate.translated("Exit"));
-
-    private final JButton changeLanguage = new JButton("German");
+    private JButton buttonSingleplayer;
+    private JButton buttonMultiplayer;
+    private JButton buttonOptions;
+    private JButton buttonExit;
 
     public MainMenu(Controller con) throws IOException {
+        translate = new Translate("english", con.getLanguage());
         setupMainMenu();
+        contentPane.revalidate();
         con.setWindow(contentPane);
     }
 
     private void setupMainMenu() {
-        panelButtons.add(singleplayer);
-        panelButtons.add(multiplayer);
-        panelButtons.add(options);
-        panelButtons.add(exit);
-        panelButtons.setBounds(400, 200, 200, 100);
-        changeLanguage.setBounds(970, 490, 30, 10);
+        buttonSingleplayer = new JButton(translate.translated("Singleplayer"));
+        buttonMultiplayer = new JButton(translate.translated("Multiplayer"));
+        buttonOptions = new JButton(translate.translated("Options"));
+        buttonExit = new JButton(translate.translated("Exit"));
+        panelButtons.add(buttonSingleplayer);
+        panelButtons.add(buttonMultiplayer);
+        panelButtons.add(buttonOptions);
+        panelButtons.add(buttonExit);
+        panelButtons.setBounds(300, 300, 400, 100);
         contentPane.add(panelButtons);
-        contentPane.add(changeLanguage);
     }
 
 }

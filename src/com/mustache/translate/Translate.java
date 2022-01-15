@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Locale;
 import java.util.Scanner;
 
 public class Translate {
@@ -13,11 +14,11 @@ public class Translate {
     private final ArrayList<String> secondLanguage = new ArrayList<>();
 
     public Translate(String first, String second) throws IOException {
-        Scanner readerFirstLanguage = new Scanner(new FileReader("src/com/mustache/translate/files/" + first));
+        Scanner readerFirstLanguage = new Scanner(new FileReader("src/com/mustache/translate/files/" + first.toLowerCase()));
         while (readerFirstLanguage.hasNextLine()) {
             firstLanguage.add(readerFirstLanguage.nextLine());
         }
-        Scanner readerSecondLanguage = new Scanner(new FileReader("src/com/mustache/translate/files/" + second));
+        Scanner readerSecondLanguage = new Scanner(new FileReader("src/com/mustache/translate/files/" + second.toLowerCase()));
         while (readerSecondLanguage.hasNextLine()) {
             secondLanguage.add(readerSecondLanguage.nextLine());
         }
