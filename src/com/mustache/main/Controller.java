@@ -1,6 +1,7 @@
 package com.mustache.main;
 
 import com.mustache.gui.MainMenu;
+import com.mustache.gui.PlaceField;
 
 import javax.swing.*;
 import java.io.IOException;
@@ -12,15 +13,18 @@ public class Controller {
 
     private String language = "german";
 
+    private boolean multiplayer;
+
     public Controller() throws IOException {
         new MainMenu(this);
         setupWindow();
-        window.repaint();
     }
 
 
     public void setWindow(JPanel contentPane) {
         this.contentPane = contentPane;
+        window.revalidate();
+        window.repaint();
     }
 
     private void setupWindow() {
@@ -31,6 +35,11 @@ public class Controller {
         window.add(contentPane);
     }
 
+    public void startGame(boolean multiplayer) {
+        setMultiplayer(multiplayer);
+        new PlaceField(this);
+    }
+
 
     public String getLanguage() {
         return language;
@@ -38,6 +47,14 @@ public class Controller {
 
     public void setLanguage(String language) {
         this.language = language;
+    }
+
+    public boolean isMultiplayer() {
+        return multiplayer;
+    }
+
+    public void setMultiplayer(boolean multiplayer) {
+        this.multiplayer = multiplayer;
     }
 }
 
