@@ -10,11 +10,10 @@ import java.io.IOException;
 
 public class MainMenu {
 
-    private final Translate translate;
+    private Translate translate;
     private Controller controller;
-
-    private final JPanel contentPane = new JPanel(null);
-    private final JPanel panelButtons = new JPanel(new GridLayout(4,1));
+    private Container contentPane;
+    private JPanel panelButtons = new JPanel(new GridLayout(4,1));
 
     private JButton buttonSingleplayer;
     private JButton buttonMultiplayer;
@@ -22,6 +21,7 @@ public class MainMenu {
     private JButton buttonExit;
 
     public MainMenu(Controller con) throws IOException {
+        contentPane = con.getWindow().getContentPane();
         translate = new Translate("english", con.getLanguage());
         controller = con;
         setupMainMenu();
@@ -35,6 +35,7 @@ public class MainMenu {
         setupGameStartListener();
         buttonOptions = new JButton(translate.translated("Options"));
         buttonExit = new JButton(translate.translated("Exit"));
+        setupExitButton();
         panelButtons.add(buttonSingleplayer);
         panelButtons.add(buttonMultiplayer);
         panelButtons.add(buttonOptions);
@@ -44,12 +45,21 @@ public class MainMenu {
     }
 
     private void setupGameStartListener() {
-        buttonSingleplayer.addActionListener(e -> {
-            controller.startGame(false);
-        });
-        buttonMultiplayer.addActionListener(e -> {
-            controller.startGame(true);
-        });
+        for(ActionListener act : buttonSingleplayer.getActionListeners()) {
+            buttonSingleplayer.removeActionListener(act);
+        }
+        for(ActionListener act : buttonMultiplayer.getActionListeners()) {
+            buttonMultiplayer.removeActionListener(act);
+        }
+        buttonSingleplayer.addActionListener(e -> controller.startGame(false));
+        buttonMultiplayer.addActionListener(e -> controller.startGame(true));
+    }
+
+    private void setupExitButton() {
+        for (ActionListener act : buttonExit.getActionListeners()) {
+            buttonExit.removeActionListener(act);
+        }
+        buttonExit.addActionListener(e -> controller.getWindow().dispose());
     }
 
 }
