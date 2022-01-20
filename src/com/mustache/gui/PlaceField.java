@@ -1,26 +1,35 @@
 package com.mustache.gui;
 
 import com.mustache.main.Controller;
+import com.mustache.translate.Translate;
 
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.io.IOException;
 
 public class PlaceField {
 
     private Container contentPane;
+    private Translate translater = new Translate("english", "german");
 
     private JPanel gamePanel = new JPanel(new GridLayout(10,10));
     private JPanel shipFieldPanel = new JPanel(new GridLayout(10,1));
     private JLabel[][] gameComponents = new JLabel[10][10];
+
+    private JButton readyButton = new JButton(translater.translated("Ready"));
+
     private Controller controller;
 
-    public PlaceField(Controller con) {
+    public PlaceField(Controller con) throws IOException {
         controller = con;
         contentPane = con.getWindow().getContentPane();
         contentPane.removeAll();
         setupGameField();
+        setupShipField();
         con.setWindow(contentPane);
     }
 
@@ -31,6 +40,15 @@ public class PlaceField {
                 gameComponents[i][j] = new JLabel();
                 gameComponents[i][j].setText(i + ":" + j );
                 gameComponents[i][j].setBorder(new LineBorder(Color.BLACK));
+                int finalI = i;
+                int finalJ = j;
+                gameComponents[i][j].addMouseListener(new MouseAdapter() {
+                    @Override
+                    public void mouseClicked(MouseEvent e) {
+                        super.mouseClicked(e);
+                        System.out.println(finalI + ":" + finalJ);
+                    }
+                });
                 gamePanel.add(gameComponents[i][j]);
             }
         }
@@ -40,7 +58,12 @@ public class PlaceField {
     }
 
     private void setupShipField() {
-        shipFieldPanel.setBounds(550, 50 , 400, 400);
+        shipFieldPanel.setBounds(550, 50 , 200, 400);
+        shipFieldPanel.setBorder(new LineBorder(Color.BLACK));
+        readyButton.setBounds(800, 50, 150, 30);
+        readyButton.addActionListener(e -> controller.setReady());
+        contentPane.add(readyButton);
+        contentPane.add(shipFieldPanel);
     }
 
 }

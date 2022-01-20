@@ -8,7 +8,7 @@ public class Ship {
     private int endPosition;
     private String side = "right";
 
-    public Ship(String name, int size, int startPositon) {
+    public Ship(String name, int size) {
         this.name = name;
         this.size = size;
         this.startPositon = startPositon;
@@ -53,4 +53,43 @@ public class Ship {
         }
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getSize() {
+        return size;
+    }
+
+    public void setSize(int size) {
+        this.size = size;
+    }
+
+    public int getStartPositon() {
+        return startPositon;
+    }
+
+    public void setStartPositon(int startPositon) {
+        this.startPositon = startPositon;
+    }
+
+    public int getEndPosition() {
+        return endPosition;
+    }
+
+    public void setEndPosition(int endPosition) {
+        this.endPosition = endPosition;
+    }
+
+    public String getSide() {
+        return side;
+    }
+
+    public void setSide(String side) {
+        this.side = side;
+    }
 }

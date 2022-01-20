@@ -15,6 +15,7 @@ public class Controller {
     private String language = "german";
 
     private boolean multiplayer;
+    private boolean ready = false;
 
     public Controller() throws IOException {
         new MainMenu(this);
@@ -37,7 +38,7 @@ public class Controller {
         window.setVisible(true);
     }
 
-    public void startGame(boolean multiplayer) {
+    public void startGame(boolean multiplayer) throws IOException {
         setMultiplayer(multiplayer);
         new PlaceField(this);
     }
@@ -61,6 +62,14 @@ public class Controller {
 
     public JFrame getWindow() {
         return window;
+    }
+
+    public void setReady() {
+        ready = true;
+    }
+
+    public boolean isReady() {
+        return ready;
     }
 }
 

@@ -51,8 +51,20 @@ public class MainMenu {
         for(ActionListener act : buttonMultiplayer.getActionListeners()) {
             buttonMultiplayer.removeActionListener(act);
         }
-        buttonSingleplayer.addActionListener(e -> controller.startGame(false));
-        buttonMultiplayer.addActionListener(e -> controller.startGame(true));
+        buttonSingleplayer.addActionListener(e -> {
+            try {
+                controller.startGame(false);
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        });
+        buttonMultiplayer.addActionListener(e -> {
+            try {
+                controller.startGame(true);
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        });
     }
 
     private void setupExitButton() {
