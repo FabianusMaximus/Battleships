@@ -4,15 +4,14 @@ public class Ship {
 
     private String name;
     private int size;
-    private int startPositon;
-    private int endPosition;
+    private int[][] position;
     private String side = "right";
 
     public Ship(String name, int size) {
         this.name = name;
         this.size = size;
-        this.startPositon = startPositon;
-        calculateEndPosition();
+        position = new int[2][size];
+        calculatePosition();
     }
 
     public void rotate(){
@@ -27,28 +26,20 @@ public class Ship {
                 side = "right";
                 break;
         }
-        calculateEndPosition();
+        calculatePosition();
     }
 
-    public int[] getPosition() {
-        int[] position = new int[2];
-        position[0] = startPositon;
-        position[1] = endPosition;
+    public int[][] getPosition() {
         return position;
     }
 
-    private void calculateEndPosition() {
+    private void calculatePosition() {
         switch (side) {
-            case "right" :
-                endPosition = startPositon+size;
-                break;
-            case "down" :
-                endPosition = startPositon-(size*10);
+            case "left" :
                 break;
             case "up" :
-                endPosition = startPositon+(size*10);
-            default:
-                endPosition = startPositon+size;
+                break;
+            case "down" :
                 break;
         }
     }
@@ -69,20 +60,9 @@ public class Ship {
         this.size = size;
     }
 
-    public int getStartPositon() {
-        return startPositon;
-    }
-
-    public void setStartPositon(int startPositon) {
-        this.startPositon = startPositon;
-    }
-
-    public int getEndPosition() {
-        return endPosition;
-    }
-
-    public void setEndPosition(int endPosition) {
-        this.endPosition = endPosition;
+    public void setStartPositon(int x, int y) {
+        position[0][0] = x;
+        position[1][0] = y;
     }
 
     public String getSide() {
