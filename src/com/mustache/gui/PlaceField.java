@@ -1,6 +1,7 @@
 package com.mustache.gui;
 
 import com.mustache.main.Controller;
+import com.mustache.objects.GameLabel;
 import com.mustache.translate.Translate;
 
 import javax.swing.*;
@@ -18,7 +19,7 @@ public class PlaceField {
 
     private JPanel gamePanel = new JPanel(new GridLayout(10,10));
     private JPanel shipFieldPanel = new JPanel(new GridLayout(10,1));
-    private JLabel[][] gameComponents = new JLabel[10][10];
+    private GameLabel[][] gameComponents = new GameLabel[10][10];
 
     private JButton readyButton = new JButton(translater.translated("Ready"));
 
@@ -37,7 +38,7 @@ public class PlaceField {
         for(int i = 0; i < 10; i++) {
             for(int j = 0; j < 10; j++) {
                 System.out.println();
-                gameComponents[i][j] = new JLabel();
+                gameComponents[i][j] = new GameLabel(false, false);
                 gameComponents[i][j].setText(i + ":" + j );
                 gameComponents[i][j].setBorder(new LineBorder(Color.BLACK));
                 int finalI = i;
@@ -47,6 +48,8 @@ public class PlaceField {
                     public void mouseClicked(MouseEvent e) {
                         super.mouseClicked(e);
                         System.out.println(finalI + ":" + finalJ);
+                        System.out.println(gameComponents[finalI][finalJ].isShip());
+                        System.out.println(gameComponents[finalI][finalJ].isHit());
                     }
                 });
                 gamePanel.add(gameComponents[i][j]);
