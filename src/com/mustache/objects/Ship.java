@@ -2,14 +2,16 @@ package com.mustache.objects;
 
 public class Ship {
 
+    private int id;
     private String name;
     private int size;
     private int[][] position;
     private String side = "right";
 
-    public Ship(String name, int size) {
+    public Ship(int id, String name, int size) {
         this.name = name;
         this.size = size;
+        this.id = id;
         position = new int[2][size];
         calculatePosition();
     }
@@ -90,5 +92,17 @@ public class Ship {
 
     public void setSide(String side) {
         this.side = side;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setPosition(int[][] position) {
+        this.position = position;
     }
 }

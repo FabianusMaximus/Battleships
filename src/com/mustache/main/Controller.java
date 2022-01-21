@@ -3,6 +3,7 @@ package com.mustache.main;
 import com.mustache.gui.MainMenu;
 import com.mustache.gui.PlaceField;
 import com.mustache.objects.Ship;
+import com.mustache.translate.Translate;
 
 import javax.swing.*;
 import java.awt.*;
@@ -14,6 +15,12 @@ public class Controller {
     private Container contentPane = window.getContentPane();
 
     private String language = "german";
+    private Translate translate = new Translate("english", "german");
+
+    private PlaceField placeField;
+
+    private Ship[] ships = new Ship[5];
+    private int selectedShip = 11;
 
     private boolean multiplayer;
     private boolean ready = false;
@@ -41,12 +48,38 @@ public class Controller {
 
     public void startGame(boolean multiplayer) throws IOException {
         setMultiplayer(multiplayer);
-        PlaceField placeField = new PlaceField(this);
-        placeField.setGameFieldToShipField(5,3);
-        placeField.setGameFieldToShipField(1,1);
+        placeField = new PlaceField(this);
+        setupShip();
         window.repaint();
     }
 
+    private void setupShip() {
+        ships[0] = new Ship(1,translate.translated("Battleship"), 5);
+        ships[1] = new Ship(1,translate.translated("Cruiser"), 4);
+        ships[2] = new Ship(1,translate.translated("Frigate"), 3);
+        ships[3] = new Ship(1,translate.translated("Frigate"), 3);
+        ships[4] = new Ship(1,translate.translated("Minesweeper"), 2);
+    }
+
+    public Ship placeShip(int x, int y) {
+        if(selectedShip < 5 && selectedShip >= 0) {
+            int i = selectedShip;
+            ships[i].setStartPositon(x, y);
+            System.out.println(ships[i].getSize());
+            selectedShip = 11;
+            return ships[i];
+        }
+        return null;
+    }
+
+    public void repaint() {
+        window.repaint();
+    }
+
+    public void setShip(int shipType) {
+        selectedShip = shipType;
+        System.out.println(selectedShip);
+    }
 
     public String getLanguage() {
         return language;
