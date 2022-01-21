@@ -34,12 +34,28 @@ public class PlaceField {
         con.setWindow(contentPane);
     }
 
+    public void setGameFieldToShipField(int x, int y) {
+        gameComponents[y][x].setShip(true);
+        setupShipFields();
+    }
+
+    private void setupShipFields() {
+        for(int i = 0; i < 10; i++) {
+            for (int j = 0; j < 10; j++) {
+                if(gameComponents[j][i].isShip()) {
+                    gameComponents[j-1][i-1].setOpaque(true);
+                    gameComponents[j-1][i-1].setBackground(Color.darkGray);
+                }
+            }
+        }
+    }
+
     private void setupGameField() {
         for(int i = 0; i < 10; i++) {
             for(int j = 0; j < 10; j++) {
                 System.out.println();
                 gameComponents[i][j] = new GameLabel(false, false);
-                gameComponents[i][j].setText(i + ":" + j );
+                gameComponents[i][j].setText((j+1) + ":" + (i+1));
                 gameComponents[i][j].setBorder(new LineBorder(Color.BLACK));
                 int finalI = i;
                 int finalJ = j;
@@ -47,9 +63,10 @@ public class PlaceField {
                     @Override
                     public void mouseClicked(MouseEvent e) {
                         super.mouseClicked(e);
-                        System.out.println(finalI + ":" + finalJ);
-                        System.out.println(gameComponents[finalI][finalJ].isShip());
-                        System.out.println(gameComponents[finalI][finalJ].isHit());
+                        System.out.println((finalJ+1) + ":" + (finalI+1));
+                        System.out.println(gameComponents[finalI+1][finalJ+1].isShip());
+                        System.out.println(gameComponents[finalI+1][finalJ+1].isHit());
+                        setupShipField();
                     }
                 });
                 gamePanel.add(gameComponents[i][j]);

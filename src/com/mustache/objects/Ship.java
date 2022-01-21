@@ -36,10 +36,28 @@ public class Ship {
     private void calculatePosition() {
         switch (side) {
             case "left" :
+                for(int i = 1; i < size; i++) {
+                    position[0][i] = position[0][0]-i;
+                    position[1][i] = position[1][0];
+                }
                 break;
             case "up" :
+                for(int i = 1; i < size; i++) {
+                    position[0][i] = position[0][0];
+                    position[1][i] = position[1][0]-i;
+                }
                 break;
             case "down" :
+                for(int i = 1; i < size; i++) {
+                    position[0][i] = position[0][0];
+                    position[1][i] = position[1][0]+i;
+                }
+                break;
+            case "right" :
+                for(int i = 1; i < size; i++) {
+                    position[0][i] = position[0][0]+i;
+                    position[1][i] = position[1][0];
+                }
                 break;
         }
     }
@@ -63,6 +81,7 @@ public class Ship {
     public void setStartPositon(int x, int y) {
         position[0][0] = x;
         position[1][0] = y;
+        calculatePosition();
     }
 
     public String getSide() {

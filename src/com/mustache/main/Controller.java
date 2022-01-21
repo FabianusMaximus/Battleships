@@ -2,6 +2,7 @@ package com.mustache.main;
 
 import com.mustache.gui.MainMenu;
 import com.mustache.gui.PlaceField;
+import com.mustache.objects.Ship;
 
 import javax.swing.*;
 import java.awt.*;
@@ -40,7 +41,10 @@ public class Controller {
 
     public void startGame(boolean multiplayer) throws IOException {
         setMultiplayer(multiplayer);
-        new PlaceField(this);
+        PlaceField placeField = new PlaceField(this);
+        placeField.setGameFieldToShipField(5,3);
+        placeField.setGameFieldToShipField(1,1);
+        window.repaint();
     }
 
 
