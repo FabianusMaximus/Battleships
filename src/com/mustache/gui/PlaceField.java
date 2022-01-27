@@ -6,7 +6,6 @@ import com.mustache.objects.Ship;
 import com.mustache.translate.Translate;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
@@ -34,22 +33,40 @@ public class PlaceField {
         setupGameField();
         setupShipField();
         con.setWindow(contentPane);
-    }
-
-    public void setGameFieldToShipField(int x, int y) {
+    }/*public void setGameFieldToShipField(int x, int y) {
         gameComponents[y][x].setShip(true);
         setupShipFields();
-    }
+    }*/
 
     private void setupShipFields() {
         for(int i = 0; i < 10; i++) {
             for (int j = 0; j < 10; j++) {
                 if(gameComponents[j][i].isShip()) {
-                    gameComponents[j-1][i-1].setOpaque(true);
-                    gameComponents[j-1][i-1].setBackground(Color.darkGray);
+                    if(j-1 > 0 && j-1 < 10 && i-1 > 0 && i-1 < 10) gameComponents[j-1][i-1].setOpaque(true);
+                    if(j-1 > 0 && j-1 < 10 && i-1 > 0 && i-1 < 10) gameComponents[j-1][i-1].setBackground(Color.darkGray);
+                    if(j-1 > 0 && j-1 < 10 && i-1 > 0 && i-1 < 10) gameComponents[j-1][i-1].setPlaceable(false);
+                    if(j > 0 && j < 10 && i > 0 && i < 10) gameComponents[j][i].setPlaceable(false);
+                    if(j+1 > 0 && j+1 < 10 && i+1 > 0 && i+1 < 10) gameComponents[j+1][i+1].setPlaceable(false);
+                    if(j+1 > 0 && j+1 < 10 && i-1 > 0 && i-1 < 10) gameComponents[j+1][i-1].setPlaceable(false);
+                    if(j-1 > 0 && j-1 < 10 && i+1 > 0 && i+1 < 10) gameComponents[j-1][i+1].setPlaceable(false);
+                    if(j > 0 && j < 10 && i-1 > 0 && i-1 < 10) gameComponents[j][i-1].setPlaceable(false);
+                    if(j > 0 && j < 10 && i+1 > 0 && i+1 < 10) gameComponents[j][i+1].setPlaceable(false);
+                } else {
+                    if(j-1 > 0 && j-1 < 10 && i-1 > 0 && i-1 < 10) gameComponents[j-1][i-1].setBackground(Color.blue);
                 }
             }
-        }
+        }/*for(int i = 0; i < 10; i++) {
+            for (int j = 0; j < 10; j++) {
+                if(gameComponents[j][i] != null) {
+                    if (!gameComponents[j][i].isPlaceable() && !gameComponents[j][i].isShip()) {
+                        if(gameComponents[j-1][i-1] != null) {
+                            gameComponents[j-1][i-1].setOpaque(true);
+                            gameComponents[j-1][i-1].setBackground(Color.GREEN);
+                        }
+                    }
+                }
+            }
+        }*/
     }
 
     private void setupGameField() {
@@ -69,17 +86,22 @@ public class PlaceField {
                             System.out.println((finalJ) + ":" + (finalI));
                             System.out.println("Is ship: " + gameComponents[finalI][finalJ].isShip());
                             System.out.println("Is hit: " + gameComponents[finalI][finalJ].isHit());
+                            System.out.println("Is placeable: " + gameComponents[finalI][finalJ].isPlaceable());
                             Ship ship = controller.placeShip(finalJ, finalI);
-                            if(ship.getPosition() != null) {
+                            if(ship != null && ship.getPosition() != null) {
                                 int[] x = ship.getPosition()[0];
                                 int[] y = ship.getPosition()[1];
                                 for (int i = 0; i < ship.getSize(); i++) {
-                                    if (!gameComponents[y[i]][x[i]].isShip()) gameComponents[y[i]][x[i]].setShip(true);
+                                    if (!gameComponents[y[i]][x[i]].isShip()) {
+                                        gameComponents[y[i]][x[i]].setShip(true);
+                                        gameComponents[y[i]][x[i]].setPlaceable(false);
+                                    }
                                 }
                             }
+                            //resetShipsForGameField();
                             setupShipFields();
                             controller.repaint();
-                            ships[ship.getId()].removeAll();
+                            if(ship != null )ships[ship.getId()].removeAll();
                     }
                 });
                 gamePanel.add(gameComponents[i][j]);
@@ -90,6 +112,22 @@ public class PlaceField {
         gamePanel.setBorder(new LineBorder(Color.BLACK));
         gamePanel.setBounds(50,50,400,400);
         contentPane.add(gamePanel);
+    }
+
+    public void resetShipForGameField(int x, int y) {
+        if(gameComponents[y][x].isShip()) {
+            if(y-1 > 0 && y-1 < 10 && x-1 > 0 && x-1 < 10) gameComponents[y-1][x-1].setOpaque(true);
+            if(y-1 > 0 && y-1 < 10 && x-1 > 0 && x-1 < 10) gameComponents[y-1][x-1].setBackground(Color.darkGray);
+            if(y-1 > 0 && y-1 < 10 && x-1 > 0 && x-1 < 10) gameComponents[y-1][x-1].setShip(false);
+            if(y-1 > 0 && y-1 < 10 && x-1 > 0 && x-1 < 10) gameComponents[y-1][x-1].setPlaceable(true);
+            if(y > 0 && y < 10 && x > 0 && x < 10) gameComponents[y][x].setPlaceable(true);
+            if(y+1 > 0 && y+1 < 10 && x+1 > 0 && x+1 < 10) gameComponents[y+1][x+1].setPlaceable(true);
+            if(y+1 > 0 && y+1 < 10 && x-1 > 0 && x-1 < 10) gameComponents[y+1][x-1].setPlaceable(true);
+            if(y-1 > 0 && y-1 < 10 && x+1 > 0 && x+1 < 10) gameComponents[y-1][x+1].setPlaceable(true);
+            if(y > 0 && y < 10 && x-1 > 0 && x-1 < 10) gameComponents[y][x-1].setPlaceable(true);
+            if(y > 0 && y < 10 && x+1 > 0 && x+1 < 10) gameComponents[y][x+1].setPlaceable(true);
+        }
+        setupShipFields();
     }
 
     private void setupShipField() {
@@ -125,6 +163,10 @@ public class PlaceField {
             }
         });
         return lbl;
+    }
+
+    public boolean checkForPlaceable(int x, int y) {
+        return (gameComponents[y][x].isPlaceable());
     }
 
 }

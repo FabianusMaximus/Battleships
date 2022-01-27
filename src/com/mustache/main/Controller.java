@@ -62,14 +62,33 @@ public class Controller {
     }
 
     public Ship placeShip(int x, int y) {
+        int i = selectedShip;
         if(selectedShip < 5 && selectedShip >= 0) {
-            int i = selectedShip;
+            for(Ship ship : ships) {
+                System.out.println(ship.getPosition()[0][0]);
+                System.out.println(ship.getPosition()[1][0]);
+            }
+            if(ships[i].getPosition() != null) {
+                for(int j = 0; j < ships[i].getSize(); j++) {
+                   placeField.resetShipForGameField(ships[i].getPosition()[0][j], ships[i].getPosition()[1][j]);
+                   System.out.println("Reset: " + ships[i].getPosition()[0][j] + " : " + ships[i].getPosition()[1][j]);
+                }
+            }
             ships[i].setStartPositon(x, y);
-            System.out.println(ships[i].getSize());
+            //System.out.println(ships[i].getSize());
             selectedShip = 11;
-            return ships[i];
+        } else {
+            return null;
         }
-        return null;
+        for(int j = 0; j < ships[i].getSize(); j++) {
+            if(!placeField.checkForPlaceable(ships[i].getPosition()[0][j],ships[i].getPosition()[1][j])) return null;
+            System.out.println(placeField.checkForPlaceable(ships[i].getPosition()[0][j],ships[i].getPosition()[1][j]));
+        }
+        return ships[i];
+    }
+
+    public Ship[] getShips() {
+        return ships;
     }
 
     public void repaint() {

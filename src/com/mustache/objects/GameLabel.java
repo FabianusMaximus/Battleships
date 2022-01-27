@@ -6,6 +6,7 @@ public class GameLabel extends JLabel {
 
     private boolean ship;
     private boolean hit;
+    private boolean placeable = true;
 
     public GameLabel(boolean ship, boolean hit) {
         this.ship = ship;
@@ -27,4 +28,13 @@ public class GameLabel extends JLabel {
     public void setHit(boolean hit) {
         this.hit = hit;
     }
+
+    public boolean isPlaceable() {
+        return placeable;
+    }
+
+    public void setPlaceable(boolean placeable) {
+        this.placeable = placeable;
+    }
+
 }
