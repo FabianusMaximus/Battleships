@@ -4,11 +4,15 @@ import com.mustache.gui.MainMenu;
 import com.mustache.gui.PlaceField;
 import com.mustache.objects.Ship;
 import com.mustache.translate.Translate;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
 
+@Setter
+@Getter
 public class Controller {
 
     private final JFrame window = new JFrame();
@@ -47,7 +51,6 @@ public class Controller {
     }
 
     public void startGame(boolean multiplayer) throws IOException {
-        setMultiplayer(multiplayer);
         placeField = new PlaceField(this);
         setupShip();
         window.repaint();
@@ -61,72 +64,6 @@ public class Controller {
         ships[4] = new Ship(1,translate.translated("Minesweeper"), 2);
     }
 
-    public Ship placeShip(int x, int y) {
-        int i = selectedShip;
-        if(selectedShip < 5 && selectedShip >= 0) {
-            for(Ship ship : ships) {
-                System.out.println(ship.getPosition()[0][0]);
-                System.out.println(ship.getPosition()[1][0]);
-            }
-            if(ships[i].getPosition() != null) {
-                for(int j = 0; j < ships[i].getSize(); j++) {
-                   placeField.resetShipForGameField(ships[i].getPosition()[0][j], ships[i].getPosition()[1][j]);
-                   System.out.println("Reset: " + ships[i].getPosition()[0][j] + " : " + ships[i].getPosition()[1][j]);
-                }
-            }
-            ships[i].setStartPositon(x, y);
-            //System.out.println(ships[i].getSize());
-            selectedShip = 11;
-        } else {
-            return null;
-        }
-        for(int j = 0; j < ships[i].getSize(); j++) {
-            if(!placeField.checkForPlaceable(ships[i].getPosition()[0][j],ships[i].getPosition()[1][j])) return null;
-            System.out.println(placeField.checkForPlaceable(ships[i].getPosition()[0][j],ships[i].getPosition()[1][j]));
-        }
-        return ships[i];
-    }
-
-    public Ship[] getShips() {
-        return ships;
-    }
-
-    public void repaint() {
-        window.repaint();
-    }
-
-    public void setShip(int shipType) {
-        selectedShip = shipType;
-        System.out.println(selectedShip);
-    }
-
-    public String getLanguage() {
-        return language;
-    }
-
-    public void setLanguage(String language) {
-        this.language = language;
-    }
-
-    public boolean isMultiplayer() {
-        return multiplayer;
-    }
-
-    public void setMultiplayer(boolean multiplayer) {
-        this.multiplayer = multiplayer;
-    }
-
-    public JFrame getWindow() {
-        return window;
-    }
-
-    public void setReady() {
-        ready = true;
-    }
-
-    public boolean isReady() {
-        return ready;
-    }
 }
 
 

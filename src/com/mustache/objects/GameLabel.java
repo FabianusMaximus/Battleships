@@ -1,40 +1,25 @@
 package com.mustache.objects;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.swing.*;
 
+@Getter
+@Setter
 public class GameLabel extends JLabel {
 
+    private int id;
     private boolean ship;
     private boolean hit;
     private boolean placeable = true;
 
-    public GameLabel(boolean ship, boolean hit) {
+    public GameLabel(int id, boolean ship, boolean hit) {
+        this.id = id;
         this.ship = ship;
         this.hit = hit;
     }
 
-    public boolean isShip() {
-        return ship;
-    }
 
-    public void setShip(boolean ship) {
-        this.ship = ship;
-    }
-
-    public boolean isHit() {
-        return hit;
-    }
-
-    public void setHit(boolean hit) {
-        this.hit = hit;
-    }
-
-    public boolean isPlaceable() {
-        return placeable;
-    }
-
-    public void setPlaceable(boolean placeable) {
-        this.placeable = placeable;
-    }
 
 }
