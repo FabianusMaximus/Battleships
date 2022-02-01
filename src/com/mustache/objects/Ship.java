@@ -11,7 +11,9 @@ public class Ship {
     private String name;
     private int size;
     private int[] position;
+    private int startPosition;
     private String side = "right";
+    private boolean placed = false;
 
     public Ship(int id, String name, int size) {
         this.name = name;
@@ -37,6 +39,19 @@ public class Ship {
     }
 
     private void calculatePosition() {
+        for(int i = 0; i < size; i++) {
+            position[i] = startPosition+i;
+        }
+    }
 
+    public void setStartPosition(int startPosition) {
+        this.startPosition = startPosition;
+        this.placed = true;
+        calculatePosition();
+    }
+
+    public int[] getPosition() {
+        if(!placed) return null;
+        return position;
     }
 }

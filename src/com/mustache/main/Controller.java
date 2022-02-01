@@ -10,6 +10,7 @@ import lombok.Setter;
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
+import java.util.ArrayList;
 
 @Setter
 @Getter
@@ -64,6 +65,16 @@ public class Controller {
         ships[4] = new Ship(1,translate.translated("Minesweeper"), 2);
     }
 
+    public ArrayList<Integer> getSelectedShipFieldIds() {
+        ArrayList<Integer> position = new ArrayList<>();
+        for (Ship ship : ships) {
+            System.out.println(ship.getStartPosition());
+            for(int i : ship.getPosition()) {
+                position.add(i);
+            }
+        }
+        return position;
+    }
 }
 
 
