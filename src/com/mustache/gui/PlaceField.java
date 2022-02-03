@@ -21,7 +21,6 @@ public class PlaceField {
     private Container contentPane;
     private Controller controller;
     private Translate translater = new Translate("english", "german");
-    private PlaceFieldController placeFieldController;
 
     private JPanel gamePanel = new JPanel(new GridLayout(10,10));
     private JPanel shipFieldPanel = new JPanel(new GridLayout(5,1));
@@ -30,9 +29,8 @@ public class PlaceField {
     private JLabel[] ships = new JLabel[5];
     private JButton readyButton = new JButton(translater.translated("Ready"));
 
-    public PlaceField(Controller con) throws IOException {
+    public PlaceField(Controller con) {
         controller = con;
-        placeFieldController = new PlaceFieldController(controller, this);
         setupContentPane();
         setupPlaceField();
         setupShipField();
@@ -44,12 +42,13 @@ public class PlaceField {
         contentPane.removeAll();
     }
 
-    private void setupPlaceField() {
+    private Container setupPlaceField() {
         gamePanel.setBounds(50,50,400,400);
         gamePanel.setOpaque(true);
         gamePanel.setBorder(new LineBorder(Color.BLACK));
         gamePanel.setBackground(Color.BLACK);
-        contentPane.add(placeFieldController.generateGameField(gamePanel));
+        contentPane.add(gamePanel);
+        return contentPane;
     }
 
     public void setFieldAsShip(int id) {

@@ -20,7 +20,7 @@ public class MainMenu {
     private JButton buttonOptions;
     private JButton buttonExit;
 
-    public MainMenu(Controller con) throws IOException {
+    public MainMenu(Controller con) {
         contentPane = con.getWindow().getContentPane();
         translate = new Translate("english", con.getLanguage());
         controller = con;
@@ -52,18 +52,10 @@ public class MainMenu {
             buttonMultiplayer.removeActionListener(act);
         }
         buttonSingleplayer.addActionListener(e -> {
-            try {
                 controller.startGame(false);
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
         });
         buttonMultiplayer.addActionListener(e -> {
-            try {
                 controller.startGame(true);
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
         });
     }
 

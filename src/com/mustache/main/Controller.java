@@ -1,7 +1,7 @@
 package com.mustache.main;
 
 import com.mustache.gui.MainMenu;
-import com.mustache.gui.PlaceField;
+import com.mustache.gui.controll.PlaceFieldController;
 import com.mustache.objects.Ship;
 import com.mustache.translate.Translate;
 import lombok.Getter;
@@ -9,7 +9,6 @@ import lombok.Setter;
 
 import javax.swing.*;
 import java.awt.*;
-import java.io.IOException;
 import java.util.ArrayList;
 
 @Setter
@@ -22,7 +21,7 @@ public class Controller {
     private String language = "german";
     private Translate translate = new Translate("english", "german");
 
-    private PlaceField placeField;
+    private PlaceFieldController placeField;
 
     private Ship[] ships = new Ship[5];
     private int selectedShip = 11;
@@ -30,7 +29,7 @@ public class Controller {
     private boolean multiplayer;
     private boolean ready = false;
 
-    public Controller() throws IOException {
+    public Controller() {
         new MainMenu(this);
         setupWindow();
     }
@@ -51,8 +50,8 @@ public class Controller {
         window.setVisible(true);
     }
 
-    public void startGame(boolean multiplayer) throws IOException {
-        placeField = new PlaceField(this);
+    public void startGame(boolean multiplayer) {
+        placeField = new PlaceFieldController(this);
         setupShip();
         window.repaint();
     }
@@ -79,7 +78,7 @@ public class Controller {
 
 
 class Main {
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
         new Controller();
     }
 }

@@ -19,9 +19,9 @@ public class PlaceFieldController {
     private Controller controller;
     private PlaceField placeField;
 
-    public PlaceFieldController(Controller con, PlaceField placeField) {
+    public PlaceFieldController(Controller con) {
         this.controller = con;
-        this.placeField = placeField;
+        placeField = new PlaceField(controller);
     }
 
     public JPanel generateGameField(JPanel pane) {
@@ -58,10 +58,7 @@ public class PlaceFieldController {
     private void setupNotPlaceable() {
         ArrayList<Integer> shipFieldIds = new ArrayList<>();
         for(GameLabel lbl : placeField.getGameComponents()) {
-            if(lbl != null) {
-                if (lbl.isShip()) shipFieldIds.add(lbl.getId());
-                if (lbl.isShip()) System.out.println(lbl.getId());
-            }
+
         }
     }
 }
