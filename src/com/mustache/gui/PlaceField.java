@@ -18,9 +18,9 @@ import java.io.IOException;
 @Setter
 public class PlaceField {
 
-    private Container contentPane;
-    private Controller controller;
     private Translate translater = new Translate("english", "german");
+
+    private Container contentPane;
 
     private JPanel gamePanel = new JPanel(new GridLayout(10,10));
     private JPanel shipFieldPanel = new JPanel(new GridLayout(5,1));
@@ -29,34 +29,23 @@ public class PlaceField {
     private JLabel[] ships = new JLabel[5];
     private JButton readyButton = new JButton(translater.translated("Ready"));
 
-    public PlaceField(Controller con) {
-        controller = con;
-        setupContentPane();
-        setupPlaceField();
+    public PlaceField(Container contentPane) {
+        this.contentPane = contentPane;
+        placeField();
         setupShipField();
-        con.setWindow(contentPane);
     }
 
-    private void setupContentPane() {
-        contentPane = controller.getWindow().getContentPane();
-        contentPane.removeAll();
-    }
-
-    private Container setupPlaceField() {
+    public void placeField() {
+        for(int i = 0; i < 100; i++) {
+            gameComponents[i] = new GameLabel(i);
+            gamePanel.add(gameComponents[i]);
+        }
         gamePanel.setBounds(50,50,400,400);
-        gamePanel.setOpaque(true);
+        gamePanel.setLayout(new GridLayout(10,10));
         gamePanel.setBorder(new LineBorder(Color.BLACK));
+        gamePanel.setOpaque(true);
         gamePanel.setBackground(Color.BLACK);
         contentPane.add(gamePanel);
-        return contentPane;
-    }
-
-    public void setFieldAsShip(int id) {
-        gameComponents[id].setShip(true);
-    }
-
-    public void setFieldAsNotPlaceable(int id) {
-        gameComponents[id].setPlaceable(false);
     }
 
     private void setupShipField() {
@@ -66,9 +55,8 @@ public class PlaceField {
         shipFieldPanel.setBackground(Color.BLACK);
         setupShipFieldPanel();
         readyButton.setBounds(550, 400, 200, 50);
-        readyButton.addActionListener(e -> controller.setReady(true));
-        contentPane.add(readyButton);
         contentPane.add(shipFieldPanel);
+        contentPane.add(readyButton);
     }
 
     private void setupShipFieldPanel() {
@@ -92,8 +80,6 @@ public class PlaceField {
         lbl.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                super.mouseClicked(e);
-                controller.setSelectedShip(id);
             }
         });
         return lbl;

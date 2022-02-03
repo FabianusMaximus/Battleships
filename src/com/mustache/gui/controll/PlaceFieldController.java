@@ -21,7 +21,10 @@ public class PlaceFieldController {
 
     public PlaceFieldController(Controller con) {
         this.controller = con;
-        placeField = new PlaceField(controller);
+        controller.getWindow().getContentPane().removeAll();
+        placeField = new PlaceField(controller.getContentPane());
+        controller.getWindow().setContentPane(placeField.getContentPane());
+        controller.getWindow().repaint();
     }
 
     public JPanel generateGameField(JPanel pane) {
@@ -32,33 +35,11 @@ public class PlaceFieldController {
             gameField[i].addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
-                    super.mouseClicked(e);
-                    if(controller.getSelectedShip() < 5 && controller.getSelectedShip() >= 0) {
-                        controller.getShips()[controller.getSelectedShip()].setStartPosition(finalI);
-                        gameField[finalI].reloadColor();
-                        System.out.println(controller.getShips()[controller.getSelectedShip()].getStartPosition());
-                    }
-                    for(Ship ship : controller.getShips()) {
-                        if(ship.getPosition() != null) {
-                            for (int i = 0; i < ship.getSize(); i++) {
-                                gameField[ship.getPosition()[i]].setShip(true);
-                            }
-                        }
-                    }
-                    setupNotPlaceable();
-                    System.out.println(gameField[finalI].isShip());
-                    System.out.println(gameField[finalI].isPlaceable());
+
                 }
             });
             pane.add(gameField[i]);
         }
         return pane;
-    }
-
-    private void setupNotPlaceable() {
-        ArrayList<Integer> shipFieldIds = new ArrayList<>();
-        for(GameLabel lbl : placeField.getGameComponents()) {
-
-        }
     }
 }
