@@ -9,6 +9,7 @@ import lombok.Setter;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyListener;
 
 @Setter
 @Getter
@@ -55,7 +56,7 @@ public class Controller {
         window.repaint();
     }
 
-    private void setupShip() {
+    public void setupShip() {
         ships[0] = new Ship(1,translate.translated("Battleship"), 5);
         ships[1] = new Ship(1,translate.translated("Cruiser"), 4);
         ships[2] = new Ship(1,translate.translated("Frigate"), 3);
@@ -64,11 +65,22 @@ public class Controller {
     }
 
     public boolean setShipStartPosition(int positionId, int shipId) {
+        boolean placeable = true;
         if(ships[shipId].getPosition() == null) {
-            ships[shipId].setStartPosition(positionId);
+            for(int id : ships[shipId].getHoveredPositions(positionId)) {
+                if(id < 100 && !placeField.checkIfPositionPlaceable(id)) placeable = false;
+            }
+            if(placeable) ships[shipId].setStartPosition(positionId);
             return true;
         }
         return false;
+    }
+
+    public void setKeyListener(KeyListener listener) {
+        for(KeyListener list : window.getKeyListeners()) {
+            window.removeKeyListener(list);
+        }
+        window.addKeyListener(listener);
     }
 }
 

@@ -31,13 +31,20 @@ public class PlaceField {
         setupShipField();
     }
 
-    public void placeField() {
+    private void placeField() {
         gamePanel.setBounds(50,50,400,400);
         gamePanel.setLayout(new GridLayout(10,10));
         gamePanel.setBorder(new LineBorder(Color.BLACK));
         gamePanel.setOpaque(true);
         gamePanel.setBackground(Color.BLACK);
         contentPane.add(gamePanel);
+    }
+
+    public void setGameComponents(GameLabel[] lbl) {
+        gameComponents = lbl;
+        for(int i = 0; i < lbl.length; i++) {
+            gamePanel.add(gameComponents[i]);
+        }
     }
 
     private void setupShipField() {
