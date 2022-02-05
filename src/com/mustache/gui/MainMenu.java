@@ -10,10 +10,10 @@ import java.io.IOException;
 
 public class MainMenu {
 
-    private Translate translate;
-    private Controller controller;
-    private Container contentPane;
-    private JPanel panelButtons = new JPanel(new GridLayout(4,1));
+    private final Translate translate;
+    private final Controller controller;
+    private final Container contentPane;
+    private final JPanel panelButtons = new JPanel(new GridLayout(4,1));
 
     private JButton buttonSingleplayer;
     private JButton buttonMultiplayer;
