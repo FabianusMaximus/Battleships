@@ -4,14 +4,14 @@ import com.mustache.gui.PlaceField;
 import com.mustache.main.Controller;
 import com.mustache.objects.GameLabel;
 import com.mustache.objects.Ship;
+import com.mustache.objects.ShipPlaceLabel;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.swing.*;
+import javax.swing.border.LineBorder;
 import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 
 
 @Getter
@@ -27,15 +27,11 @@ public class PlaceFieldController {
         this.controller = con;
         controller.getWindow().getContentPane().removeAll();
         placeField = new PlaceField(controller.getContentPane());
-        controller.setKeyListener(new PlaceFieldKeyListener(this));
-        generateGameField();
+        placeField.getContentPane().addKeyListener();
+        ships = controller.getShips();
         setupShipLabels();
+        generateGameField();
         setupResetListener();
-
-
-
-
-
         controller.getWindow().setContentPane(placeField.getContentPane());
         controller.getWindow().repaint();
     }
@@ -49,8 +45,6 @@ public class PlaceFieldController {
                 @Override
                 public void mouseClicked(MouseEvent e) {
                     setShipStartPositionInController(gameField[finalI].getId());
-                    System.out.println(gameField[finalI].isShip());
-                    System.out.println(finalI);
                 }
                 @Override
                 public void mouseEntered(MouseEvent e) {
@@ -63,6 +57,7 @@ public class PlaceFieldController {
                                 break;
                             }
                             if(!gameField[pos].isPlaceable()) possible = false;
+                            if(Math.round(pos/10)*10 >= (Math.round(finalI/10)*10)+10) possible = false;
                         }
                         for(int pos : positions) {
                             if (pos < 100) {
@@ -85,17 +80,28 @@ public class PlaceFieldController {
     }
 
     private void setupShipLabels() {
-        ships = controller.getShips();
-        for(int i = 0; i < ships.length; i++) {
-            placeField.getShips()[i].setText(ships[i].getName());
-            final int finalI = i;
-            placeField.getShips()[i].addMouseListener(new MouseAdapter() {
+        ShipPlaceLabel[] shipPlaceLabel = new ShipPlaceLabel[5];
+        for(int i = 0; i < 5; i++) {
+            shipPlaceLabel[i] = new ShipPlaceLabel(ships[i].getName(), i);
+            int finalI = i;
+            shipPlaceLabel[i].addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
                     selectedShip = finalI;
                 }
+
+                @Override
+                public void mouseEntered(MouseEvent e) {
+                    shipPlaceLabel[finalI].setBackground(Color.GRAY);
+                }
+
+                @Override
+                public void mouseExited(MouseEvent e) {
+                    shipPlaceLabel[finalI].setBackground(Color.lightGray);
+                }
             });
         }
+        placeField.setShipComponents(shipPlaceLabel);
     }
 
     private void setShipStartPositionInController(int id) {
@@ -103,11 +109,26 @@ public class PlaceFieldController {
         if(selectedShip >= 0 && selectedShip < 5) {
             if (controller.setShipStartPosition(id, selectedShip)) {
                 ships = controller.getShips();
-                selectedShip = 11;
+                if(ships[selectedShip].getPosition() != null) {
+                    removeShipLabel(selectedShip);
+                    selectedShip = 11;
+                }
             }
         }
         updateShipFields();
         controller.getWindow().repaint();
+    }
+
+    private void removeShipLabel(int id) {
+        for(ShipPlaceLabel spl : placeField.getShipPlaceLabels()) {
+            if(spl.getId() == id) placeField.getShipPanel().remove(spl);
+        }
+        JLabel placeholder = new JLabel();
+        placeholder.setOpaque(true);
+        placeholder.setBackground(Color.lightGray);
+        placeholder.setBorder(new LineBorder(Color.BLACK));
+        placeField.getShipPanel().add(placeholder);
+        placeField.getShipPanel().revalidate();
     }
 
     private void updateShipFields() {
@@ -121,39 +142,31 @@ public class PlaceFieldController {
     }
 
     private void setupResetListener() {
-        placeField.getReset().addActionListener(e -> {
-            controller.setupShip();
-            placeField.getGamePanel().removeAll();
-            placeField.getGamePanel().revalidate();
-            generateGameField();
+        placeField.getReset().addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                controller.setupShip();
+                placeField.getShipPanel().removeAll();
+                placeField.getShipPanel().revalidate();
+                setupShipLabels();
+                placeField.getGamePanel().removeAll();
+                placeField.getGamePanel().revalidate();
+                generateGameField();
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                placeField.getReset().setBackground(Color.GRAY);
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                placeField.getReset().setBackground(Color.lightGray);
+            }
         });
     }
 
     public boolean checkIfPositionPlaceable(int id) {
         return placeField.getGameComponents()[id].isPlaceable();
-    }
-}
-
-class PlaceFieldKeyListener implements KeyListener {
-
-    PlaceFieldController controller;
-
-    public PlaceFieldKeyListener(PlaceFieldController controller) {
-        this.controller = controller;
-    }
-
-    @Override
-    public void keyTyped(KeyEvent e) {
-        System.out.println(e.getKeyCode());
-    }
-
-    @Override
-    public void keyPressed(KeyEvent e) {
-
-    }
-
-    @Override
-    public void keyReleased(KeyEvent e) {
-
     }
 }

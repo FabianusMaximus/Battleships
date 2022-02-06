@@ -44,6 +44,7 @@ public class Controller {
         window.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         contentPane.setSize(1000,535);
         window.setSize(contentPane.getSize());
+        contentPane.setBackground(Color.lightGray);
         window.setResizable(false);
         contentPane.setLayout(null);
         window.setContentPane(contentPane);
@@ -69,18 +70,12 @@ public class Controller {
         if(ships[shipId].getPosition() == null) {
             for(int id : ships[shipId].getHoveredPositions(positionId)) {
                 if(id < 100 && !placeField.checkIfPositionPlaceable(id)) placeable = false;
+                if(Math.round(id/10)*10 >= (Math.round(positionId/10)*10)+10) placeable = false;
             }
             if(placeable) ships[shipId].setStartPosition(positionId);
             return true;
         }
         return false;
-    }
-
-    public void setKeyListener(KeyListener listener) {
-        for(KeyListener list : window.getKeyListeners()) {
-            window.removeKeyListener(list);
-        }
-        window.addKeyListener(listener);
     }
 }
 

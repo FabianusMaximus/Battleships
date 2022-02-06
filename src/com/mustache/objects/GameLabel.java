@@ -34,10 +34,6 @@ public class GameLabel extends JLabel {
         return true;
     }
 
-    public boolean checkForShipCanPlaced() {
-        return !this.ship && placeable;
-    }
-
     public void reloadColor() {
         if (ship) {
             this.setBackground(Color.DARK_GRAY);

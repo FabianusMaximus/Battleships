@@ -45,6 +45,7 @@ public class Ship {
         }
         for(int pos : prognosesPosition) {
             if(pos > 99) possible = false;
+            if(Math.round(pos/10)*10 >= (Math.round(startPosition/10)*10)+10) possible = false;
         }
         if(possible) position = prognosesPosition;
     }
