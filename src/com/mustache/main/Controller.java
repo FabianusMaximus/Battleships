@@ -48,6 +48,7 @@ public class Controller {
         window.setResizable(false);
         contentPane.setLayout(null);
         window.setContentPane(contentPane);
+        window.setLocationRelativeTo(null);
         window.setVisible(true);
     }
 

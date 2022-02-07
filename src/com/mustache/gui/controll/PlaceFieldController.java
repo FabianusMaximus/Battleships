@@ -27,7 +27,7 @@ public class PlaceFieldController {
         this.controller = con;
         controller.getWindow().getContentPane().removeAll();
         placeField = new PlaceField(controller.getContentPane());
-        placeField.getContentPane().addKeyListener();
+        //placeField.getContentPane().addKeyListener(th);
         ships = controller.getShips();
         setupShipLabels();
         generateGameField();

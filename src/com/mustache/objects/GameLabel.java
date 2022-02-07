@@ -18,6 +18,12 @@ public class GameLabel extends JLabel {
     private boolean hit = false;
     private boolean placeable = true;
 
+    /**
+     *
+     * Custom JLabel, das das Platzieren von Schiffen möglich macht
+     *
+     * @param id Nummer des Panels, auf dem Spielfeld
+     */
     public GameLabel(int id) {
         this.setOpaque(true);
         this.setBorder(new LineBorder(Color.BLACK));
@@ -25,6 +31,12 @@ public class GameLabel extends JLabel {
         reloadColor();
     }
 
+    /**
+     * überprüft, ob das Schiff an dieser Stelle platziert werden kann,
+     * wenn ja, wird das Schiff platziert und true zurückgegeben
+     * @param ship zu setzender boolescher Wert
+     * @return ob das Schiff plaziert wurde
+     */
     public boolean setShip(boolean ship){
         if(this.ship == ship) return false;
         if(ship && !placeable) return false;
@@ -34,6 +46,9 @@ public class GameLabel extends JLabel {
         return true;
     }
 
+    /**
+     * färbt das Panel entsprechend seines Zustands ein
+     */
     public void reloadColor() {
         if (ship) {
             this.setBackground(Color.DARK_GRAY);
